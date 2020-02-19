@@ -8,7 +8,7 @@ The `.csv` file is derived from analysis of the raw Qaultrix data, which can be 
 
 1. First attempt was with the plotly library, following the presentation [here](https://plot.ly/python/v3/filled-chord-diagram/), but with lots of modifications for Python3 and Plotly v.4.
 
-1. Second attempt is using the `nxviz` library. Docs are [here](https://nxviz.readthedocs.io/en/latest/).
+1. ~~Second attempt is using the `nxviz` library. Docs are [here](https://nxviz.readthedocs.io/en/latest/).~~
 
 
 ### Acknowledgements
