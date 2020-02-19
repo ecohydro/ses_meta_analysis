@@ -6,6 +6,8 @@ The `.csv` file is derived from analysis of the raw Qaultrix data, which can be 
 
 ## Notes
 
+![alt text](https://plot.ly/~kcaylor/247/#/ "Chord Diagram for SES Data")
+
 
 
 ### Acknowledgements
