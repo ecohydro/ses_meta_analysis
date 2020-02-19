@@ -6,9 +6,9 @@ The `.csv` file is derived from analysis of the raw Qaultrix data, which can be 
 
 ## Notes
 
-![alt text](https://plot.ly/~kcaylor/247/#/ "Chord Diagram for SES Data")
+1. First attempt was with the plotly library, following the presentation [here](https://plot.ly/python/v3/filled-chord-diagram/), but with lots of modifications for Python3 and Plotly v.4.
 
-<iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~kcaylor/247.embed"></iframe>
+1. Second attempt is using the `nxviz` library. Docs are [here](https://nxviz.readthedocs.io/en/latest/).
 
 
 ### Acknowledgements
