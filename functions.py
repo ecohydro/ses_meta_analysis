@@ -24,7 +24,7 @@ def create_matrix(dataframe, code=0):
     
     """
     if code == 0:
-        df = dataframe
+        df = dataframe.loc[dataframe['Code'] > 0]
     else:
         # Filter the data based on the value of the code argument.
         df = dataframe.loc[dataframe['Code'] == code]
