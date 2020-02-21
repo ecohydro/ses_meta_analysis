@@ -6,7 +6,7 @@ The `.csv` file is derived from analysis of the raw Qaultrix data, which can be 
 
 ## Output
 
-Here are the most recent images created by (Circos Diagram.ipynb)[Circos%20Diagram.ipynb]:
+Here are the most recent images created by [Circos Diagram.ipynb](Circos%20Diagram.ipynb):
 
 1. All Manuscripts
 
