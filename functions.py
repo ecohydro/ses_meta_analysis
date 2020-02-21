@@ -4,7 +4,7 @@ import numpy as np
 import plotly.graph_objs as go
 PI = np.pi
 
-def create_matrix(dataframe, code=0):
+def create_matrix(dataframe, code=0, groups=None):
     """ Generates the analysis matrix for our SES metadata CIRCOS figure.
     
         Input:
@@ -29,38 +29,60 @@ def create_matrix(dataframe, code=0):
         # Filter the data based on the value of the code argument.
         df = dataframe.loc[dataframe['Code'] == code]
     
-    # Initialize the circos_matrix as a defaultdict so that we do not
-    # need to specify the dict keys before assignment.
-    circos_matrix= defaultdict( lambda:
-        defaultdict(lambda: defaultdict(int)))
+    # Reorder the columns as necessary, dropping Record ID and code
+    if groups == None:
+        # This is easy, just sort all the data by abundance of data:
+        counts = df.sum()[2:].sort_values(ascending=False)
+        df = df[counts.index]
+    elif groups:
+        # This requires us to sort each group separately.
+        # 1. Get index of sort order for environmental data:
+        group1 = list(df[groups[0]].sum().sort_values(ascending=False).index)
+        group2 = list(df[groups[1]].sum().sort_values(ascending=False).index)
+        df = df[group1 + group2]
 
-    # Get the list of datatypes using the column headers of the dataframe.
-    #
-    # WARNING: This assumes that the dataframe has the structure defined in the
-    #   ipython notebook, `Circos Diagram.ipynb`. Any changes will break
-    #   this code.
-    #
-    datatypes = list(df.columns[2:-1])
-
+    # Initialize the matrix with zeros in every location.
+    circos_matrix= {}
+    datatypes = list(df.columns)
     for datatype in datatypes:
-        # 0. Assign the datatype-datatype node to zero:
-        circos_matrix[datatype][datatype] = 0
-        # 1. Assign all types to othertypes
-        # NOTE: We can't use same list as in for loop!
-        othertypes = list(df.columns[2:-1])
-        # 2. Remove the current datatype from othertypes
+        circos_matrix[datatype] = {}
+        othertypes = list(df.columns)
         othertypes.remove(datatype)
-        # 3. Iterate over all the remaining othertypes:
+        circos_matrix[datatype][datatype] = 0
         for othertype in othertypes:
-            # 4. Initialize this combination to zero (may be default)
             circos_matrix[datatype][othertype] = 0
-            # 5. Find all papers containing this combination of types
-            matches = len(df.loc[(df[datatype] == 1) & (df[othertype] == 1)])
-            # 6. Assign the # of matches to the current combination of types
-            circos_matrix[datatype][othertype] = matches
 
+    # Now analyze the matrix to assign valid values
+    if groups == None:
+        datatypes = list(df.columns)
+
+        for datatype in datatypes:
+            # 1. Assign all types to othertypes
+            # NOTE: We can't use same list as in for loop!
+            othertypes = list(df.columns)
+            # 2. Remove the current datatype from othertypes
+            othertypes.remove(datatype)
+            # 3. Iterate over all the remaining othertypes:
+            for othertype in othertypes:
+                # 4. Find all papers containing this combination of types
+                matches = len(df.loc[(df[datatype] == 1) & (df[othertype] == 1)])
+                # 5. Assign the # of matches to the current combination of types
+                circos_matrix[datatype][othertype] = matches
+
+    elif groups:
+        group1 = list(groups[0])
+        group2 = list(groups[1])
+        for d in group1 + group2:
+            circos_matrix[d][d] = 0 
+        for datatype in group1:
+            othertypes = list(groups[1])
+            for othertype in othertypes:
+                matches = len(df.loc[(df[datatype] == 1) & (df[othertype] == 1)])
+                circos_matrix[datatype][othertype] = matches
+                circos_matrix[othertype][datatype] = matches
     # Return our result as a pandas dataframe instead of a dict.
-    return pd.DataFrame(circos_matrix)
+    # Catch all the NaN here instead of in the code above.
+    return pd.DataFrame(circos_matrix).fillna(0), len(df)
 
 
 
