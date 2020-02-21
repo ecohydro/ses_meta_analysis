@@ -10,7 +10,7 @@ Here are the most recent images created by (Circos Diagram.ipynb)[Circos%20Diagr
 
 1. All Manuscripts
 
-![](all_manuscripts.png)
+![](All_manuscripts.png)
 
 1. Coupled system manuscripts
 
@@ -22,7 +22,7 @@ Here are the most recent images created by (Circos Diagram.ipynb)[Circos%20Diagr
 
 1. Environmental Impacts on Social Systems Manuscripts
 
-![](environmental__social_manuscripts.png)
+![](environmental_social_manuscripts.png)
 
 ## Notes
 
